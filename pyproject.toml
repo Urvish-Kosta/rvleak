@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rvleak"
+version = "0.1.0"
+description = "Microarchitectural leakage analysis for RV32IM software, with per-instruction attribution"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Urvish Kosta" }]
+keywords = ["risc-v", "side-channel", "hardware-security", "simulation",
+            "power-analysis", "tvla", "cpa", "microarchitecture"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Security :: Cryptography",
+    "Topic :: System :: Hardware",
+]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.6"]
+dev = ["pytest>=7.0", "matplotlib>=3.6", "ruff>=0.4"]
+
+[project.scripts]
+rvleak = "rvleak.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Urvish-Kosta/rvleak"
+Issues = "https://github.com/Urvish-Kosta/rvleak/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 96
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E741"]
