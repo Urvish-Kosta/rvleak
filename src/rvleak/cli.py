@@ -174,6 +174,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv=None) -> int:
+    # Restore default SIGPIPE handling so that piping output into head, less, or
+    # similar terminates quietly instead of raising BrokenPipeError. Python
+    # installs SIG_IGN by default, which turns a normal shell idiom into a
+    # traceback.
+    try:
+        import signal
+        signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+    except (ImportError, AttributeError, ValueError):
+        pass  # not available on Windows or in a non-main thread
     args = build_parser().parse_args(argv)
     return args.func(args)
 
